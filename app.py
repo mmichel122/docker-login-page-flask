@@ -35,8 +35,8 @@ def register():
         if request.method == 'POST':
                 cursor = cnx.cursor()
                 user_name = request.form['username']
-                pass_word1 = request.form['password1'] 
-                add_account = ("INSERT INTO Users(username, password) VALUES('"+user_name+"', "+pass_word1+")")
+                pass_word = request.form['password'] 
+                add_account = ("INSERT INTO Users(username, password) VALUES('"+user_name+"', "+pass_word+")")
                 cursor.execute(add_account)
                 cnx.commit()
                 flash('Account Registred')
