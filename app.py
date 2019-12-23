@@ -2,8 +2,15 @@ from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
 import os
 import mysql.connector
+import argparse
 
-cnx = mysql.connector.connect(user='login', password='123456', host='172.17.0.2',database='login')
+parser = argparse.ArgumentParser(description='Mysql Database Details: Host IP Address or DNS Name, Username and Password...')
+parser.add_argument("db_ip", help='IP address of the database server...')
+parser.add_argument("db_username", help='username of the database user...')
+parser.add_argument("db_password", help='username password...')
+args = parser.parse_args()
+
+cnx = mysql.connector.connect(user=args.db_username, password=args.db_password, host=args.db_ip,database='login')
 app = Flask(__name__)
 
 @app.route('/')
@@ -36,7 +43,7 @@ def register():
                 cursor = cnx.cursor()
                 user_name = request.form['username']
                 pass_word = request.form['password'] 
-                add_account = ("INSERT INTO Users(username, password) VALUES('"+user_name+"', "+pass_word+")")
+                add_account = ("INSERT INTO Users(username, password) VALUES('"+user_name+"', '"+pass_word+"')")
                 cursor.execute(add_account)
                 cnx.commit()
                 flash('Account Registred')

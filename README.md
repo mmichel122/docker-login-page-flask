@@ -9,7 +9,17 @@ docker build -t flask-app:latest .
 Run the Docker container using the command shown below.
 
 ```bash
-docker run -d -p 8080:8080 flask-app
+docker run -d --name test -e db_ip=172.17.0.2 -p 8080:8080 --rm flask-app:latest 
+```
+or
+
+```bash
+docker run -d --name test -e db_ip=172.17.0.2 -e db_user=login db_pass=SecurePass -p 8080:8080 --rm flask-app:latest
 ```
 
-The application will be accessible at http:127.0.0.1:8080 or if you are using boot2docker then first find ip address using `$ boot2docker ip` and the use the ip `http://<host_ip>:8080`
+The application will be accessible at http:X.X.X.X:8080.
+You need to set 3 environnement variable db_ip, db_user and db_pass, default value see below.
+
+db_ip=127.0.0.1
+db_user=login
+db_pass=123456
